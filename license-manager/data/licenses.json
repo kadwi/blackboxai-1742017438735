@@ -1,0 +1,14 @@
+[
+  {
+    "id": "2384023f-e195-44a3-8998-54706d64fb40",
+    "buyerName": "John Doe",
+    "scriptId": "example-script-v1",
+    "licenseKey": "5e93b34f-f877-482b-a4d4-0b84772ce130",
+    "createdAt": "2025-03-15T05:41:23.711Z",
+    "expiresAt": "2025-04-14T05:41:23.710Z",
+    "maxDevices": 3,
+    "devicesUsed": [
+      "71df46aab289a6272d5f8407fd3fb23255b0f55a0ba661fc8fdbf78a39ac4ce0"
+    ]
+  }
+]
