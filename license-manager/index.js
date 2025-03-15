@@ -32,29 +32,31 @@ const initializeLicensesFile = async () => {
     }
 };
 
-// Cron job to check expired licenses
-cron.schedule('*/5 * * * *', async () => {
-    const licensesPath = path.join(__dirname, 'data', 'licenses.json');
-    try {
-        const data = await fs.readFile(licensesPath, 'utf8');
-        const licenses = JSON.parse(data);
-        const currentTime = new Date().getTime();
+// Import cron job checker
+const checkExpiredLicenses = require('./cron/check_expired');
 
-        const validLicenses = licenses.filter(license => {
-            const expirationTime = new Date(license.expiresAt).getTime();
-            return expirationTime > currentTime;
-        });
-
-        if (validLicenses.length !== licenses.length) {
-            await fs.writeFile(licensesPath, JSON.stringify(validLicenses, null, 2));
-            logger.info(`Removed ${licenses.length - validLicenses.length} expired licenses`);
-        }
-    } catch (error) {
-        logger.error(`Error in cron job: ${error.message}`);
-    }
+// Run initial check for expired licenses
+checkExpiredLicenses().catch(error => {
+    logger.error(`Initial expired license check failed: ${error.message}`);
 });
 
+// Schedule cron job to check expired licenses every hour
+// Format: '0 * * * *' = run at minute 0 of every hour
+// This ensures consistent timing regardless of when the server starts
+cron.schedule('0 * * * *', checkExpiredLicenses, {
+    scheduled: true,
+    timezone: "UTC"
+});
+
+// Also check every time the server starts
+logger.info('Scheduling license expiration checks for every hour at minute 0');
+
 // Routes
+// Redirect root to admin login
+app.get('/', (req, res) => {
+    res.redirect('/admin/login');
+});
+
 app.use('/admin', require('./routes/admin'));
 app.use('/api', require('./routes/api'));
 
