@@ -1,0 +1,27 @@
+{
+  "name": "license-manager",
+  "version": "1.0.0",
+  "description": "A license management system for script sales with device limiting and expiration features",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": [
+    "license",
+    "management",
+    "scripts",
+    "validation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "node-cron": "^3.0.2",
+    "uuid": "^9.0.0"
+  }
+}
